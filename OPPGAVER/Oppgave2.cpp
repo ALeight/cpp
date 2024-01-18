@@ -25,7 +25,9 @@ int main ()  {
             nedbor,
             totMin = 0,
             totMax = 0,
-            totNedbor = 0;
+            totNedbor = 0,
+            mestNedbor = -1,
+            nedborDag = 0;
 
 
     cout << "\nLese inn vêrdata for en maaned (J/n): ";
@@ -39,17 +41,18 @@ int main ()  {
         } while (antDager < MINDAGER  ||  antDager > MAXDAGER);
 
         for (int i = 0;  i < antDager;  i++)  {
-            cout <<"\nDag nr" << i+1 <<":\n";
+            cout <<"\nDag nr" << setw(2) << i <<":\n";
 
             do {
-                cout <<"\tMinimumstemp ("<<MINTEMP<<" til "<<MAXTEMP<<"): ";
+                cout <<"\tMinimumstemp ("<< setw(2) << MINTEMP <<
+                        " til "<< setw(2) << MAXTEMP <<"): ";
                 cin >> min;
-
             } while(min < MINTEMP ||  min > MAXTEMP);
             totMin += min;
 
             do {
-                cout <<"\tMaksimumstemp ("<<MINTEMP<<" til "<<MAXTEMP<<"): ";
+                cout <<"\tMaksimumstemp ("<< setw(2) << MINTEMP <<
+                        " til "<< setw(2) << MAXTEMP <<"): ";
                 cin >> max;
             } while(max < min  ||  max > MAXTEMP);
             totMax += max;
@@ -59,20 +62,29 @@ int main ()  {
                 cin >> nedbor;
             } while(nedbor < 0  ||  nedbor > MAXNEDBOR);
             totNedbor += nedbor;
+
+            if (nedbor > mestNedbor){
+                mestNedbor = nedbor;
+                nedborDag = i;
+            }
         }
 
 
-        cout <<fixed<<setprecision(2)<<"\n\nGjennomsnittlig min.temp: "<<(float)totMin/antDager<<" grader C\n";
-        cout <<fixed<<setprecision(2)<<"Gjennomsnittlig max.temp: "<<(float)totMax/antDager<<" grader C\n";
-        cout <<fixed<<setprecision(2)<<"Gjennomsnittlig nedbør: "<<(float)totNedbor/antDager<<" mm\n";
-        cout <<fixed<<setprecision(2)<<"Total nedbør i måneden:   "<<totNedbor<<" mm\n";
+        cout << fixed << setprecision(2) <<
+                "\n\nGjennomsnittlig min.temp: "<<(float)totMin/antDager<<" grader C\n";
+        cout << fixed << setprecision(2) <<
+                "Gjennomsnittlig max.temp: "<<(float)totMax/antDager<<" grader C\n";
+        cout << fixed << setprecision(2) <<
+                "Gjennomsnittlig nedbør: "<<(float)totNedbor/antDager<<" mm\n";
+        cout << fixed << setprecision(2) <<
+                "Total nedbør i måneden:   "<<totNedbor<<" mm\n";
 
         cout <<"\nLese inn værdata for en måned til (J/n): ";
         cin >> svar;
         svar = toupper(svar);
     }
 
-    cout <<"\n\n\nHa en fortsatt god (vær(syk))dag!\n\n";
+    cout <<"\n\n\nHa en fortsatt god (vêr(syk))dag!\n\n";
 
     return 0;
 }
