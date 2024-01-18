@@ -40,7 +40,7 @@ int main ()  {
             cin >> antDager;
         } while (antDager < MINDAGER  ||  antDager > MAXDAGER);
 
-        for (int i = 0;  i < antDager;  i++)  {
+        for (int i = 0;  i <= antDager;  i++)  {
             cout <<"\nDag nr" << setw(2) << i <<":\n";
 
             do {
