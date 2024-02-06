@@ -51,6 +51,8 @@ void forelesningLesData(Forelesning* f){
     cout << lesInt("\nMinuttslutt?", 0, 45); cin >> f->minSlutt;
 }
 
+// test
+
 /*
  * Skriver ut all data om én forelesning
  *
