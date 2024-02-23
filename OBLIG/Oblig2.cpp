@@ -26,7 +26,9 @@ class Animal {
 private:
     std::string name;
 public:
-    Animal() { readData(); }
+    Animal() { Animal::readData(); }
+    // One more constructor, with fishname as param
+    Animal(const std::string& n) { name=n; }
 
     void readData() { std::cout << "\nWhats the name of the animal?"; getline(std::cin, name); }
     void writeData() const { std::cout << "\nThe animals name is " << name << "!"; }
@@ -40,7 +42,7 @@ class AnimalOnLand : public Animal {
 private:
     int weight;
 public:
-    AnimalOnLand() { readData(); writeData(); }
+    AnimalOnLand() { AnimalOnLand::readData(); AnimalOnLand::writeData(); }
 
     void readData() { weight = lesInt("\nWhat does this animal weigh in kg?", 1, 500); }
     void writeData() const { std::cout << "\nThe animal weighs " << weight << "kgs!"; }
@@ -54,11 +56,14 @@ class AnimalInWater : public Animal {
 private:
     bool hybr;
 public:
-    AnimalInWater() { readData(); writeData(); }
+    AnimalInWater() { AnimalInWater::readData(); AnimalInWater::writeData(); }
+    // One more constructor, with fishname as param
+    AnimalInWater(const std::string& n) : Animal(n) { readData(); }
+
 
     void readData() { if (lesInt("\nCan this animal survive for some time on land (0-no/1-Yes)?", 0, 1) == 1)
                         hybr=true; else hybr=false; }
-    void writeData() const { std::cout << "\nThis animal " << (hybr ? "can": "cannot") << "live on land."; }
+    void writeData() const { std::cout << "\nThis animal " << (hybr ? "can": "cannot") << " live on land!\n"; }
 };
 
 
@@ -69,11 +74,11 @@ class Crustacean : public AnimalInWater {
 private:
     int size;
 public:
-    Crustacean() { readData(); writeData(); }
+    Crustacean() { Crustacean::readData(); writeData(); }
 
     void readData() { std::cout << lesInt("\nWhat's the size of this crustacean in mm ", 1, 120); }
     void writeData() const { if (size < 10) std::cout << "\nThat is a small crustacean!";
-                             else std::cout << "\nDecently sized crustacean!"; }
+                             else std::cout << "\nA decently sized crustacean!\n"; }
 };
 
 
@@ -84,12 +89,11 @@ class Fish : public AnimalInWater {
 private:
     int gills;
 public:
-    Fish() { readData(); writeData(); }
+    Fish() { Fish::readData(); writeData(); }
+    Fish(const std::string& n) : AnimalInWater(n) { Fish::readData(); }
 
-    void readData() { std::cout << lesInt("\nNumber of gills ", 1, 100); }
-    void writeData() const { std::cout << "Woa this fish has " << gills << " gills!!"; }
-
-
+    void readData() { gills = lesInt("\nNumber of gills ", 1, 100); }
+    void writeData() const { std::cout << "\nWoa this fish has " << gills << " gills!"; }
 };
 
 
@@ -100,7 +104,7 @@ class Insect : public AnimalOnLand {
 private:
     bool appr;
 public:
-    Insect() { readData(); writeData(); }
+    Insect() { Insect::readData(); Insect::writeData(); }
 
     void readData() { if (lesInt("\nDo you like insects (0=no/1=Yes)", 0, 1) == 1)
                                                             appr=true; else appr=false; }
@@ -115,7 +119,7 @@ class Bird : public AnimalOnLand {
 private:
     int wingspan = 0;
 public:
-    Bird() { readData(); writeData(); }
+    Bird() { Bird::readData(); writeData(); }
 
     void readData () { wingspan = lesInt("\nWingspan of bird in cm: ", 1, 240); }
     void writeData() const { std::cout << "\nBirds wingspan is " << wingspan << " cm."; }
@@ -126,7 +130,7 @@ public:
  * Main Program start:
  */
 int main(){
-    Bird* b;        // Pointer to different Animal-objects
+    Bird* b;        // Pointers to different Animal-objects
     Insect* i;
     Fish* f;
     Crustacean* c;
