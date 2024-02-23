@@ -42,7 +42,7 @@ class AnimalOnLand : public Animal {
 private:
     int weight;
 public:
-    AnimalOnLand() { AnimalOnLand::readData(); AnimalOnLand::writeData(); }
+    AnimalOnLand() { AnimalOnLand::readData(); }
 
     void readData() { weight = lesInt("\nWhat does this animal weigh in kg?", 1, 500); }
     void writeData() const { std::cout << "\nThe animal weighs " << weight << "kgs!"; }
@@ -56,10 +56,9 @@ class AnimalInWater : public Animal {
 private:
     bool hybr;
 public:
-    AnimalInWater() { AnimalInWater::readData(); AnimalInWater::writeData(); }
+    AnimalInWater() { AnimalInWater::readData(); }
     // One more constructor, with fishname as param
     AnimalInWater(const std::string& n) : Animal(n) { readData(); }
-
 
     void readData() { if (lesInt("\nCan this animal survive for some time on land (0-no/1-Yes)?", 0, 1) == 1)
                         hybr=true; else hybr=false; }
@@ -74,7 +73,7 @@ class Crustacean : public AnimalInWater {
 private:
     int size;
 public:
-    Crustacean() { Crustacean::readData(); writeData(); }
+    Crustacean() { Crustacean::readData(); }
 
     void readData() { std::cout << lesInt("\nWhat's the size of this crustacean in mm ", 1, 120); }
     void writeData() const { if (size < 10) std::cout << "\nThat is a small crustacean!";
@@ -89,7 +88,7 @@ class Fish : public AnimalInWater {
 private:
     int gills;
 public:
-    Fish() { Fish::readData(); writeData(); }
+    Fish() { Fish::readData(); }
     Fish(const std::string& n) : AnimalInWater(n) { Fish::readData(); }
 
     void readData() { gills = lesInt("\nNumber of gills ", 1, 100); }
@@ -104,7 +103,7 @@ class Insect : public AnimalOnLand {
 private:
     bool appr;
 public:
-    Insect() { Insect::readData(); Insect::writeData(); }
+    Insect() { Insect::readData(); }
 
     void readData() { if (lesInt("\nDo you like insects (0=no/1=Yes)", 0, 1) == 1)
                                                             appr=true; else appr=false; }
@@ -119,7 +118,7 @@ class Bird : public AnimalOnLand {
 private:
     int wingspan = 0;
 public:
-    Bird() { Bird::readData(); writeData(); }
+    Bird() { Bird::readData(); }
 
     void readData () { wingspan = lesInt("\nWingspan of bird in cm: ", 1, 240); }
     void writeData() const { std::cout << "\nBirds wingspan is " << wingspan << " cm."; }
@@ -135,6 +134,7 @@ int main(){
     Fish* f;
     Crustacean* c;
     char cmnd;
+    std::string name;
 
 
     writeMenu();
@@ -144,20 +144,31 @@ int main(){
         switch(cmnd) {
             case 'I':
                 i = new Insect();
+                i->writeData();
                 delete i;
                 break;
             case 'B':
                 b = new Bird();
+                b->writeData();
                 delete b;
                 break;
             case 'C':
                 c = new Crustacean();
+                c->writeData();
                 delete c;
                 break;
             case 'F':
-                f = new Fish();
-                delete f;
-                break;
+                std::cout << "\nName: ";
+                getline(std::cin, name);
+                if (name.empty()) {
+                    f = new Fish();
+                    f->writeData();
+                    delete f;
+                } else {
+                    f = new Fish(name);
+                    f->writeData();
+                    delete f;
+                } break;
             default: writeMenu();
         }
         cmnd = lesChar("\nCommand");
@@ -169,7 +180,7 @@ int main(){
 
 
 /*
- * Menu showing users options
+ * Menu showing user available options
  */
 void writeMenu(){
     std::cout << "\n\tWhat animal do you wish to create?"
