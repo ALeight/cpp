@@ -238,8 +238,6 @@ Ansatt::Ansatt(ifstream & inn) : Person(inn) {
 void Ansatt::endreData() {
     char sj;
 
-    // Tolket denne som at brukeren, hvis ja, får endret på alle data
-    // uten å velge hvilke av de to som ønskes
     if ((sj=lesChar("Ønsker du å endre data (j/N)?")) == 'J'){
         cout << "Nytt rom "; getline(cin, rom);
         cout << "Endring i årslønn "; cin >> lonn; cin.ignore();
@@ -266,7 +264,7 @@ void Ansatt::lesData() {
  */
 void Ansatt::skrivData() const {
     Person::skrivData();
-    cout << rom << " " << lonn;
+    cout << "\nRom " << rom << ", lønn: " << lonn << " kr.\n";
 }
 
 
@@ -277,7 +275,7 @@ void Ansatt::skrivData() const {
  *  @see     Person::skrivTilTil(...)
  */
 void Ansatt::skrivTilFil(ofstream & ut) const {
-    ut << 'A';
+    ut << "A";
     Person::skrivData();
     ut << lonn << " " << rom;
 }
@@ -293,6 +291,11 @@ void Ansatt::skrivTilFil(ofstream & ut) const {
  *  @see   virtual Person::endreData()
  */
 void endreEnPerson() {
+    int nr;
+
+    if (!gPersoner.empty()) {
+
+    }
 
 }
 
@@ -319,7 +322,7 @@ void lesFraFil() {
             case 'B':
                 gPersoner[nr] = new Student(innA);
                 break;
-            default: cout << "Noe gikk galt.";
+            default: cout << "\nNoe gikk galt.";
                 return;
         }
     }
